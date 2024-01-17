@@ -185,6 +185,9 @@
 
                 // Update background image based on dark mode state
                 updateDarkModeButtonImage();
+
+                // Store dark mode state in local storage
+                localStorage.setItem('darkModeEnabled', html.classList.contains('dark-mode'));
             });
 
             // Function to update DarkModeButton image based on dark mode state
@@ -193,7 +196,10 @@
                 button.style.backgroundImage = isDarkMode ? "url('images/sun.jpeg')" : "url('images/moon.jpeg')";
             }
 
-            // Initial setup of DarkModeButton image based on dark mode state
+            // Initial setup of DarkModeButton image and dark mode state
+            const isDarkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
+            html.classList.toggle('dark-mode', isDarkModeEnabled);
+            button.classList.toggle('moon', isDarkModeEnabled);
             updateDarkModeButtonImage();
         });
 
@@ -216,37 +222,10 @@
         setCountdown();
 
         function showPage(page) {
-            // Hide all pages
             const pages = document.querySelectorAll('.cover, .invitation, .closing');
             pages.forEach(page => page.classList.add('hidden'));
 
-            // Show the selected page
             document.querySelector(`.${page}`).classList.remove('hidden');
-        }
-
-        function enableDarkMode() {
-            document.body.classList.add('dark-mode');
-            document.querySelectorAll('.cover, .invitation, .closing').forEach(element => {
-                element.classList.add('dark-mode');
-            });
-        }
-
-        function rememberDarkMode() {
-            var darkModeEnabled = localStorage.getItem('darkModeEnabled');
-            if (darkModeEnabled === 'true') {
-                enableDarkMode();
-            }
-        }
-
-        rememberDarkMode();
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            document.querySelectorAll('.cover, .invitation, .closing').forEach(element => {
-                element.classList.toggle('dark-mode');
-            });
-            var darkModeEnabled = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkModeEnabled', darkModeEnabled);
         }
     </script>
 </body>
